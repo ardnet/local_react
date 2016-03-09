@@ -5,7 +5,6 @@
     <title>Basic Example with Click Counter</title>
     <script src="build/react.js"></script>
     <script src="build/react-dom.js"></script>
-    <script src="build/socketService.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
 
     <link rel="stylesheet" href="http://www.fox.com/sites/default/files/css/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css">
@@ -30,87 +29,45 @@
     </div>
 
     <script>
-      
-
-      // var videoList = function() {
-      //   var videoListx = [];
-      //   var ws = new WebSocket('ws://rocky-sierra-19135.herokuapp.com/');
-      //   ws.onmessage = function (event) {
-      //     console.log(event.data);
-      //     return event.data;
-      //   };
-
-      //   // console.log(videoListx);
-
-      //   // return videoListx;
-      // }
-
+      var videoList = [
+        {
+          "nid":182786,
+          "title":"Home Again",
+          "thumb":"http://www.fox.com/sites/default/files/styles/full_episodes_rotator_thumbnail/public/video-image-thumb/fox_TheXFiles_1AYW02_hulu.jpg",
+          "type":"video","url":"/watch/616557123886/7756658688"
+        },
+        {
+          "nid":187501,
+          "title":"Mr. Freeze",
+          "thumb":"http://www.fox.com/sites/default/files/styles/full_episodes_rotator_thumbnail/public/video-image-thumb/Gotham_GTH212_2500_1280x720_633837635777.jpg",
+          "type":"video",
+          "url":"/watch/633284675626/7684182528"
+        },
+        {
+          "nid":188896,
+          "title":"Wingman",
+          "thumb":"http://www.fox.com/sites/default/files/styles/full_episodes_rotator_thumbnail/public/video-image-thumb/fox_Lucifer_L106_hulu.jpg",
+          "type":"video",
+          "url":"/watch/638578243933/7766097408"
+        }
+      ];
     </script>
     <script type="text/babel">
-      var socketService = new SocketService();
-      var IndividualLists = React.createClass({
-        
-
+      var ProperListRender = React.createClass({displayName: "ProperListRender",
         render: function() {
-          // var commentNodes = this.props.data.map(function (comment, index) {
-          //   console.log(comment);
-          //   // return Comment( {key:index, author:comment.author}, comment.text);
-          // });
-          var xxx = this.props.data;
-
-          console.log(xxx);
-          return (
-            <li>Lalala</li>
-          );
+          var listItems = this.props.list.map(function(video, idx) {
+            console.log(idx);
+                return <li>
+                  <a href={video.url}>
+                    <img src={video.thumb} />
+                  </a>
+                  <h3><a href={video.url}>{video.title}</a></h3>
+                </li>;
+              });
+          return <ul>{listItems}</ul>
         }
       });
-
-      var ProperListRender = React.createClass({
-        displayName: 'ProperListRender',
-        requestComments: function() {
-          this.setState({data: []});
-          var socket = this.props.socketService;
-          console.log(this.props);
-          // console.log(socket);
-          // socket.sendRequest({}, function (message) {
-          //   console.log(message);
-          //   if (message.$type === 'dataReceived') {
-          //     if (!message.data) return;
-          //     this.state.data.push(message.data);
-          //   }
-          //   if (message.$type === 'dataCompleted') {
-          //     socket.requestComplete(message.$id);
-          //     this.setState({data: this.state.data});
-          //   }
-          //   if (message.$type === 'error') {
-          //     socket.requestComplete(message.$id);
-          //   }
-          // }.bind(this));
-        },
-        getInitialState: function () {
-          return {data: []};
-        },
-        componentWillMount: function () {
-          this.requestComments();
-        },
-        render: function() {
-          return (
-            <ul>
-              <IndividualLists />
-            </ul>  
-          );
-        }
-      });
-
-      ReactDOM.render(
-        <ProperListRender />,
-        document.getElementById('exampleList')
-      );
-
-      // React.renderComponent(
-      //   ProperListRender({socketService:socketService}),
-      //   document.getElementById('exampleList')
-      // );
+      ReactDOM.render(React.createElement(ProperListRender, {list: videoList}), document.getElementById('exampleList'));
     </script>
 
 
